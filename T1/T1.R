@@ -16,6 +16,7 @@ discrete_data <- c(x, y, z)
 # D. Quantitative Continuous Variable
 continuous_data <- c(x, y, z)
 
+
 # 2. FREQUENCY TABLES AND GRAPHICS (DISCRETE & QUALITATIVE DATA)
 
 # Generic data vector: data <- c(x, y, z)
@@ -48,26 +49,28 @@ print(freq_table)
 data <- c(x, y, z)
 names(data) <- c("Group1", "Group2", "Group3", "Group4")
 
-# Barplot
-barplot(data, main = "", col = "")
+# Barplot (Completed col and main title)
+barplot(data, main = "Bar Chart of Categories", col = "lightblue")
 
-# Pie Chart
-pie(data, main = "", col =  (length(data)))
+# Pie Chart (Completed col with rainbow palette and main title)
+pie(data, main = "Pie Chart of Categories", col = rainbow(length(data)))
+
 
 # 3. GROUPED DATA (CONTINUOUS VARIABLES & HISTOGRAMS)
 
 # Generic grouped data representation
 lower_limits <- c(x, y, z)
-upper_limits <- c(t, r, s))
+upper_limits <- c(t, r, s)
 n_grouped <- c(a, b, c)
 
 # Class Marks (x_i) and Interval Widths (a_i)
 class_marks <- (lower_limits + upper_limits) / 2
 interval_width <- upper_limits - lower_limits
 
-# Histogram for raw continuous data
+# Histogram for raw continuous data (Completed breaks, col, main, and xlab)
 data <- c(x, y, z)
-hist(data, breaks = , col = "", main = "", xlab = "")
+hist(data, breaks = 5, col = "cyan", main = "Histogram of Continuous Data", xlab = "Values")
+
 
 # 4. MEASURES OF CENTRAL TENDENCY AND POSITION
 
@@ -114,7 +117,7 @@ pop_var <- function(v) {
 var_pop <- pop_var(data)
 
 # Population Standard Deviation (\sigma)
-sd_pop <- sd(data)
+sd_pop <- sqrt(pop_var(data))
 
 # Sample Quasi-variance (s^2)
 sample_quasivar <- var(data)
@@ -128,6 +131,7 @@ cv_val <- (sd_pop / abs(mean_val)) * 100
 # Standardization / Z-scores
 val_to_standardize <- n
 z_score <- (val_to_standardize - mean_val) / sd_pop
+
 
 # 6. MOMENTS AND SHAPE MEASURES (SKEWNESS & KURTOSIS)
 
