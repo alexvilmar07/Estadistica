@@ -85,7 +85,7 @@ lines (regL , col =2)
 
 
 # Function that calculates autocorrelation for a frequency n
-library(tidyverse)
+
 data<- c( #datapoints
   )
 
@@ -100,12 +100,10 @@ autoCorrel <- function ( data , n ) {
 # The frequency searched will be the one that has the highest correlation.
 # For that, we check which one the highest is between 1 and 12 and that will be the answer.
 
-
-calculateCorrel <- function(data) {
 data<- c(#data points
   )
-  biggest <- 0
-  bigfreq <- 1
+  highest <- 0
+  freq <- 1
   top <- 12
   
   if (length(data) < 12){
@@ -115,13 +113,11 @@ data<- c(#data points
   for (i in 1:top){
     current <- autoCorrel(data, i)
     
-    if (current > biggest){
-      biggest = current
-      bigfreq = i
+    if (current > highest){
+      highest = current
+      freq = i
     }
-    
   }
   
   print(paste("The frequency will be: ", bigfreq, ", with correlation: ", round(biggest, 5)))
   
-}
