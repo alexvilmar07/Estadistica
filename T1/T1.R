@@ -57,9 +57,9 @@ pie(data, main = "", col =  (length(data)))
 # 3. GROUPED DATA (CONTINUOUS VARIABLES & HISTOGRAMS)
 
 # Generic grouped data representation
-lower_limits <- c(x, y, z) // L_(i-1)
-upper_limits <- c(t, r, s)) // L_i
-n_grouped <- c(a, b, c) // n_i
+lower_limits <- c(x, y, z)
+upper_limits <- c(t, r, s))
+n_grouped <- c(a, b, c)
 
 # Class Marks (x_i) and Interval Widths (a_i)
 class_marks <- (lower_limits + upper_limits) / 2
@@ -71,7 +71,7 @@ hist(data, breaks = , col = "", main = "", xlab = "")
 
 # 4. MEASURES OF CENTRAL TENDENCY AND POSITION
 
-data <- c(x, y, z) // Usually x values
+data <- c(x, y, z)
 
 # Arithmetic Mean (\mu)
 mean_val <- mean(data)
@@ -95,8 +95,8 @@ weighted_mean_val <- weighted.mean(values, weights)
 rms_val <- sqrt(mean(data^2))
 
 # Quantiles, Quartiles, and Percentiles
-quantiles <- quantile(data, probs = c(0.25, 0.50, 0.75)) // Quartile P1 = 0.25, quartile P2 = 0.5, quartile P3 = 0.75
-percentiles <- quantile(data, probs = c(0.37, 0.68)) // Usually those two values
+quantiles <- quantile(data, probs = c(0.25, 0.50, 0.75))
+percentiles <- quantile(data, probs = c(0.37, 0.68))
 
 
 # 5. MEASURES OF DISPERSION AND COMPARISON
@@ -114,7 +114,7 @@ pop_var <- function(v) {
 var_pop <- pop_var(data)
 
 # Population Standard Deviation (\sigma)
-sd_pop <- sqrt(var_pop)
+sd_pop <- sd(data)
 
 # Sample Quasi-variance (s^2)
 sample_quasivar <- var(data)
