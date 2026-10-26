@@ -160,3 +160,52 @@ g2 <- (mu4 / (sigma_ds^4)) - 3
 
 print(paste("Fisher Skewness (g1):", round(g1, 4)))
 print(paste("Fisher Kurtosis (g2):", round(g2, 4)))
+
+#########################################################################################################
+
+# Calculates Pearson's skewness coefficient (AP) directly from the data vector.
+getPearsonSkewness_AP <- function(data){
+  
+  meanValue <- mean(data)
+  uniqueValues <- unique(data)
+  modeValue <- uniqueValues[which.max(tabulate(match(data, uniqueValues)))]
+  popSD <- sqrt(mean((data - meanValue)^2))
+  
+  pearsonSkewness_AP <- (meanValue - modeValue) / popSD
+}
+
+# Calculates Fisher's skewness coefficient (g1) directly from the data vector.
+getFisherSkewness <- function(data){
+  
+  meanValue <- mean(data)
+  mu3 <- mean((data - meanValue)^3)
+  popSD <- sqrt(mean((data - meanValue)^2))
+  
+  fisherSkewness_g1 <- mu3 / (popSD^3)
+}
+
+# Calculates Fisher's kurtosis coefficient (g2) directly from the data vector.
+getKurtosis <- function(data){
+  
+  meanValue <- mean(data)
+  mu4 <- mean((data - meanValue)^4)
+  popSD <- sqrt(mean((data - meanValue)^2))
+  
+  fisherKurtosis_g2 <- (mu4 / (popSD^4)) - 3
+}
+
+# Detects outlier values (and interval limits) directly from the data vector.
+getOutliers <- function(data){
+  
+  q1 <- unname(quantile(data, probs = 0.25))
+  q3 <- unname(quantile(data, probs = 0.75))
+  iqrValue <- q3 - q1
+  
+  lowerLimit <- q1 - 1.5 * iqrValue
+  upperLimit <- q3 + 1.5 * iqrValue
+  
+  outliersValues <- data[data < lowerLimit | data > upperLimit]
+  
+  # Uncomment if they ask for the interval limits instead of the outlier values
+  # outlierLimits <- c(Lower = lowerLimit, Upper = upperLimit)
+}
