@@ -1,4 +1,4 @@
-# 1. DATA TYPES AND DATA STORAGE IN R
+# 1. DATA TYPES AND STORAGE
 
 # A. Qualitative Nominal Variable (Categorical without order), detects only the non-repeated values and orders them alphabetically
 nominal_data <- c("CategoryA", "CategoryB", "CategoryA", "CategoryC")
@@ -16,6 +16,10 @@ discrete_data <- c(x, y, z)
 # D. Quantitative Continuous Variable
 continuous_data <- c(x, y, z)
 
+# E. REPRESENTING VARIOUS VALUES IN A TABLE AS SINGLE DATA
+xi <- c(3, 4, 8, 10)
+ni <- c(3, 15, 2, 4)
+data3 <- rep(xi, ni)
 
 # 2. FREQUENCY TABLES AND GRAPHICS (DISCRETE & QUALITATIVE DATA)
 
@@ -36,11 +40,11 @@ F_i <- cumsum(f_i)
 
 # Full Statistical Table
 freq_table <- data.frame(
-  X = names(n_i),
-  n = as.numeric(n_i),
-  f = round(as.numeric(f_i), 2),
-  N = as.numeric(N_i),
-  F = round(as.numeric(F_i), 2)
+  xi = names(n_i),
+  ni = as.numeric(n_i),
+  fi = round(as.numeric(f_i), 2),
+  Ni = as.numeric(N_i),
+  Fi = round(as.numeric(F_i), 2)
 )
 print("Frequency Table:")
 print(freq_table)
@@ -50,7 +54,7 @@ data <- c(x, y, z)
 names(data) <- c("Group1", "Group2", "Group3", "Group4")
 
 # Barplot (Completed col and main title)
-barplot(data, main = "Bar Chart of Categories", col = "lightblue")
+barplot(f_i, main = "Bar Chart of Categories", col = "lightblue") # We use the relative frequencies value
 
 # Pie Chart (Completed col with rainbow palette and main title)
 pie(data, main = "Pie Chart of Categories", col = rainbow(length(data)))
@@ -97,10 +101,10 @@ weighted_mean_val <- weighted.mean(values, weights)
 # Quadratic Mean / Root Mean Square (RMS)
 rms_val <- sqrt(mean(data^2))
 
-# Quantiles, Quartiles, and Percentiles
-quantiles <- quantile(data, probs = c(0.25, 0.50, 0.75))
-percentiles <- quantile(data, probs = c(0.37, 0.68))
-
+# Quantiles, Deciles, and Percentiles
+quantiles <- quantile(data, probs = c(0.25, 0.50, 0.75), type = 2) # Q1, Q2...
+deciles <- quantile(data, probs = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9)) # D1, D2...
+percentiles <- quantile(data, probs = c(0.37, 0.68, 0.01)) # P1, P2...
 
 # 5. MEASURES OF DISPERSION AND COMPARISON
 
@@ -108,7 +112,7 @@ percentiles <- quantile(data, probs = c(0.37, 0.68))
 r_range <- max(data) - min(data)
 
 # Interquartile Range (IQR)
-iqr_val <- IQR(data)
+iqr_val <- IQR(data, type = 2)
 
 # Population Variance (\sigma^2)
 pop_var <- function(v) {
@@ -126,12 +130,11 @@ sample_quasivar <- var(data)
 sample_quasisd <- sd(data)
 
 # Coefficient of Variation (CV)
-cv_val <- (sd_pop / abs(mean_val)) * 100
+cv_val <- (sd_pop / abs(mean_val)) * 100 # * 100 is not used always, only if we want to express it as a percentage
 
 # Standardization / Z-scores
 val_to_standardize <- n
 z_score <- (val_to_standardize - mean_val) / sd_pop
-
 
 # 6. MOMENTS AND SHAPE MEASURES (SKEWNESS & KURTOSIS)
 
@@ -148,9 +151,9 @@ mu_r <- function(v, r) {
 # Sample dataset for moments
 dataset <- c(x, y, z)
 
-mu3 <- mu_r(dataset, 3)
-mu4 <- mu_r(dataset, 4)
-sigma_ds <- sqrt(pop_var(dataset))
+mu3 <- mean((dataset - mean_val)^3)
+mu4 <- mean((dataset - mean_val)^4)
+sigma_ds <- sqrt(mean((dataset - mean_val)^2))
 
 # Fisher's Skewness Coefficient (g1)
 g1 <- mu3 / (sigma_ds^3)
@@ -161,7 +164,9 @@ g2 <- (mu4 / (sigma_ds^4)) - 3
 print(paste("Fisher Skewness (g1):", round(g1, 4)))
 print(paste("Fisher Kurtosis (g2):", round(g2, 4)))
 
+
 #########################################################################################################
+
 
 # Calculates Pearson's skewness coefficient (AP) directly from the data vector.
 getPearsonSkewness_AP <- function(data){
