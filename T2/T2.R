@@ -1,19 +1,25 @@
 #REPRESENTING A BIVARIATE VARIABLE (X, Y)
-x <- c(155, 165, 175, 185, 195) 
+x <- c(155, 165, 175, 185, 195)
 y <- c(55, 65, 75, 85, 95, 105) 
 
-data <- matrix(c(2, 0, 0, 0, 0, 1,
+data <- matrix(c(2, 0, 0, 0, 0, 0,
                  4, 4, 0, 0, 0, 0, 
                  1, 6, 3, 1, 0, 0, 
                  0, 1, 4, 1, 1, 0, 
-                 0, 2, 0, 0, 1, 1), nrow = 5, ncol = 6, byrow = TRUE, dimnames = list(Height = x, Weight = y)) 
+                 0, 0, 0, 0, 1, 1), 
+               nrow = 5, ncol = 6, byrow = TRUE, 
+               dimnames = list("da" = x, "aa" = y))
 
-colnames(data) <- x4 
-rownames(data) <- y4 
-addmargins(data) 
-N <- sum(data) #
-marginal_x4 <- colSums(data) 
-marginal_y4 <- rowSums(data)
+rownames(data) <- x
+colnames(data) <- y 
+
+addmargins(data) #sum of rows and columns
+
+N <- sum(data) #Total sample size summing all absolute frequencies
+
+marginal_x <- rowSums(data) #marginal absolute frequencies
+
+marginal_y <- colSums(data)
 
 # PART 1: JOINT DESCRIPTION OF SEVERAL VARIABLES
 
