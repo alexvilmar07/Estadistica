@@ -1,4 +1,4 @@
-# 1. DATA TYPES AND STORAGE
+# 1. DATA TYPES AND DATA STORAGE IN R
 
 # A. Qualitative Nominal Variable (Categorical without order), detects only the non-repeated values and orders them alphabetically
 nominal_data <- c("CategoryA", "CategoryB", "CategoryA", "CategoryC")
@@ -16,10 +16,6 @@ discrete_data <- c(x, y, z)
 # D. Quantitative Continuous Variable
 continuous_data <- c(x, y, z)
 
-# E. REPRESENTING VARIOUS VALUES IN A TABLE AS SINGLE DATA
-xi <- c(3, 4, 8, 10)
-ni <- c(3, 15, 2, 4)
-data3 <- rep(xi, ni)
 
 # 2. FREQUENCY TABLES AND GRAPHICS (DISCRETE & QUALITATIVE DATA)
 
@@ -40,11 +36,11 @@ F_i <- cumsum(f_i)
 
 # Full Statistical Table
 freq_table <- data.frame(
-  xi = names(n_i),
-  ni = as.numeric(n_i),
-  fi = round(as.numeric(f_i), 2),
-  Ni = as.numeric(N_i),
-  Fi = round(as.numeric(F_i), 2)
+  X = names(n_i),
+  n = as.numeric(n_i),
+  f = round(as.numeric(f_i), 2),
+  N = as.numeric(N_i),
+  F = round(as.numeric(F_i), 2)
 )
 print("Frequency Table:")
 print(freq_table)
@@ -54,7 +50,7 @@ data <- c(x, y, z)
 names(data) <- c("Group1", "Group2", "Group3", "Group4")
 
 # Barplot (Completed col and main title)
-barplot(f_i, main = "Bar Chart of Categories", col = "lightblue") # We use the relative frequencies value
+barplot(data, main = "Bar Chart of Categories", col = "lightblue")
 
 # Pie Chart (Completed col with rainbow palette and main title)
 pie(data, main = "Pie Chart of Categories", col = rainbow(length(data)))
@@ -101,10 +97,10 @@ weighted_mean_val <- weighted.mean(values, weights)
 # Quadratic Mean / Root Mean Square (RMS)
 rms_val <- sqrt(mean(data^2))
 
-# Quantiles, Deciles, and Percentiles
-quantiles <- quantile(data, probs = c(0.25, 0.50, 0.75), type = 2) # Q1, Q2...
-deciles <- quantile(data, probs = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9)) # D1, D2...
-percentiles <- quantile(data, probs = c(0.37, 0.68, 0.01)) # P1, P2...
+# Quantiles, Quartiles, and Percentiles
+quantiles <- quantile(data, probs = c(0.25, 0.50, 0.75))
+percentiles <- quantile(data, probs = c(0.37, 0.68))
+
 
 # 5. MEASURES OF DISPERSION AND COMPARISON
 
@@ -112,7 +108,7 @@ percentiles <- quantile(data, probs = c(0.37, 0.68, 0.01)) # P1, P2...
 r_range <- max(data) - min(data)
 
 # Interquartile Range (IQR)
-iqr_val <- IQR(data, type = 2)
+iqr_val <- IQR(data)
 
 # Population Variance (\sigma^2)
 pop_var <- function(v) {
@@ -130,11 +126,12 @@ sample_quasivar <- var(data)
 sample_quasisd <- sd(data)
 
 # Coefficient of Variation (CV)
-cv_val <- (sd_pop / abs(mean_val)) * 100 # * 100 is not used always, only if we want to express it as a percentage
+cv_val <- (sd_pop / abs(mean_val)) * 100
 
 # Standardization / Z-scores
 val_to_standardize <- n
 z_score <- (val_to_standardize - mean_val) / sd_pop
+
 
 # 6. MOMENTS AND SHAPE MEASURES (SKEWNESS & KURTOSIS)
 
@@ -151,9 +148,9 @@ mu_r <- function(v, r) {
 # Sample dataset for moments
 dataset <- c(x, y, z)
 
-mu3 <- mean((dataset - mean_val)^3)
-mu4 <- mean((dataset - mean_val)^4)
-sigma_ds <- sqrt(mean((dataset - mean_val)^2))
+mu3 <- mu_r(dataset, 3)
+mu4 <- mu_r(dataset, 4)
+sigma_ds <- sqrt(pop_var(dataset))
 
 # Fisher's Skewness Coefficient (g1)
 g1 <- mu3 / (sigma_ds^3)
@@ -163,54 +160,3 @@ g2 <- (mu4 / (sigma_ds^4)) - 3
 
 print(paste("Fisher Skewness (g1):", round(g1, 4)))
 print(paste("Fisher Kurtosis (g2):", round(g2, 4)))
-
-
-#########################################################################################################
-
-
-# Calculates Pearson's skewness coefficient (AP) directly from the data vector.
-getPearsonSkewness_AP <- function(data){
-  
-  meanValue <- mean(data)
-  uniqueValues <- unique(data)
-  modeValue <- uniqueValues[which.max(tabulate(match(data, uniqueValues)))]
-  popSD <- sqrt(mean((data - meanValue)^2))
-  
-  pearsonSkewness_AP <- (meanValue - modeValue) / popSD
-}
-
-# Calculates Fisher's skewness coefficient (g1) directly from the data vector.
-getFisherSkewness <- function(data){
-  
-  meanValue <- mean(data)
-  mu3 <- mean((data - meanValue)^3)
-  popSD <- sqrt(mean((data - meanValue)^2))
-  
-  fisherSkewness_g1 <- mu3 / (popSD^3)
-}
-
-# Calculates Fisher's kurtosis coefficient (g2) directly from the data vector.
-getKurtosis <- function(data){
-  
-  meanValue <- mean(data)
-  mu4 <- mean((data - meanValue)^4)
-  popSD <- sqrt(mean((data - meanValue)^2))
-  
-  fisherKurtosis_g2 <- (mu4 / (popSD^4)) - 3
-}
-
-# Detects outlier values (and interval limits) directly from the data vector.
-getOutliers <- function(data){
-  
-  q1 <- unname(quantile(data, probs = 0.25))
-  q3 <- unname(quantile(data, probs = 0.75))
-  iqrValue <- q3 - q1
-  
-  lowerLimit <- q1 - 1.5 * iqrValue
-  upperLimit <- q3 + 1.5 * iqrValue
-  
-  outliersValues <- data[data < lowerLimit | data > upperLimit]
-  
-  # Uncomment if they ask for the interval limits instead of the outlier values
-  # outlierLimits <- c(Lower = lowerLimit, Upper = upperLimit)
-}
