@@ -7,7 +7,7 @@ xx <- c(x1, x2, x3, ..., xk)
 stats::filter(xx, c(1, 1, 1, ..., 1) / k) 
 # (We put as many ones as elements in X)  
 
-# Moving average of order n (even)
+# Moving average of order n (par)
 stats::filter(xx, c(0.5, 1, 1, ..., 0.5) / k)
 # (We put k+1 elements, with the extremes being 0.5, the rest 1)
 
