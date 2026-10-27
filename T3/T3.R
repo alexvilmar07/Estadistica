@@ -7,7 +7,7 @@ xx <- c(x1, x2, x3, ..., xk)
 stats::filter(xx, c(1, 1, 1, ..., 1) / k) 
 # (We put as many ones as elements in X)  
 
-# Moving average of order n (par)
+# Moving average of order n (even)
 stats::filter(xx, c(0.5, 1, 1, ..., 0.5) / k)
 # (We put k+1 elements, with the extremes being 0.5, the rest 1)
 
@@ -23,14 +23,17 @@ xx <- c(x1, x2, ..., xk)
 firstyear <- # first year duh
   freq <- # -_-
   
-  uk <- ts(xx, start = c(firstyear, 1), # we want the first quarter
+uk <- ts(xx, start = c(firstyear, 1), # we want the first quarter
            frequency = freq # Quarterly? freq = 4
-  )
+           )
 plot(uk)
+
+
 
 # lines(tend, col = "purple")
 
 est_aleM <- uk / tend
+
 # print("est_aleM:")
 # print(est_aleM)
 
@@ -61,7 +64,7 @@ lines(desestM, col = 4)
 
 xx <- seq_along(uk)
 
-model <- lm(desestM ~ xx)
+model <- lm(uk ~ xx)
 
 regL <- ts(predict.lm(model), start = c(firstyear, 1), frequency = freq)
 
@@ -70,7 +73,7 @@ intercept <- round(model$coefficients[1], 5)
 xslope <- round(model$coefficients[2], 5)
 print(paste(intercept, " ", xslope, "x"))
 
-plot(desestM)
+plot(uk)
 lines(regL, col = 2)
 
 
