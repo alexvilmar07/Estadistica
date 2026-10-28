@@ -97,10 +97,22 @@ weighted_mean_val <- weighted.mean(values, weights)
 # Quadratic Mean / Root Mean Square (RMS)
 rms_val <- sqrt(mean(data^2))
 
-# Quantiles, Quartiles, and Percentiles
+# Quantiles and Percentiles
 quantiles <- quantile(data, probs = c(0.25, 0.50, 0.75))
 percentiles <- quantile(data, probs = c(0.37, 0.68))
 
+#Quartiles
+
+Q1 <- quantile(data, 0.25, type = 2) # o type = 7 según uséis
+Q3 <- quantile(data, 0.75, type = 2)
+IQR_val <- Q3 - Q1
+
+lim_inferior <- Q1 - 1.5 * IQR_val
+lim_superior <- Q3 + 1.5 * IQR_val
+
+outliers <- data[data < lim_inferior | data > lim_superior]
+print("Outliers detectados:")
+print(outliers)
 
 # 5. MEASURES OF DISPERSION AND COMPARISON
 
