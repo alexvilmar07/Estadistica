@@ -67,6 +67,9 @@ n_grouped <- c(a, b, c)
 class_marks <- (lower_limits + upper_limits) / 2
 interval_width <- upper_limits - lower_limits
 
+# Reconstruct the dataset vector (data2)
+data2 <- rep(class_marks, times = n_grouped)
+
 # Histogram for raw continuous data (Completed breaks, col, main, and xlab)
 data <- c(x, y, z)
 hist(data, breaks = 5, col = "cyan", main = "Histogram of Continuous Data", xlab = "Values")
